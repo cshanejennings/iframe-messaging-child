@@ -1,0 +1,1 @@
+# Basic component with AMD and CommonJS unit tests
