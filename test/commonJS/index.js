@@ -1,28 +1,45 @@
-var testModule = require('../../src/index');
+var externalInterface = require('../../src/index');
 var chai = require('chai');
 //var sinon = require('sinon'),
 var sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 
-describe('Sample Test', function () {
-	before(function () {
-	// runs before all tests in this block
-	});
-	after(function () {
-	// runs after all tests in this block
-	});
+describe('Test Method Availability', function () {
+	var child;
+	var simParentWindow;
+	var stub;
+	var parentPostMessage;
+	var simChildWindow = {
+		addEventListener: function (id, func) { parentPostMessage = func; }
+	};
+	var widgetId = '000000000';
+	var config = {
+		root: simChildWindow,
+		parent: simParentWindow,
+		id: widgetId
+	};
+
 	beforeEach(function () {
+		simParentWindow = {
+			'postMessage': stub
+		};
+		child = externalInterface(config);
 	// runs before each test in this block
 	});
-	afterEach(function () {
-	// runs after each test in this block
-	});
-	it('should be using mocha', function () {
-		if (false) {
-			throw new Error('false is true, buckle up...');
+
+	it('should have the correct signature', function () {
+		if (typeof child.addCallback !== 'function') {
+			throw new Error('missing addCallback method');
+		}
+		if (typeof child.call !== 'function') {
+			throw new Error('missing call method');
+		}
+		if (child.objectID !== widgetId) {
+			throw new Error('objectID incorrect');
 		}
 	});
-	if (testModule.test !== 'done') {
-		throw new Error('test method not returning correct string');
-	}
+
+	it('should send a message when the call methods is used', function () {
+
+	});
 });

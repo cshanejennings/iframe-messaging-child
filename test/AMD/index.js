@@ -1,4 +1,4 @@
-var testModule = require('../../src/index');
+//var testModule = require('../../src/index');
 var chai = require('chai');
 //var sinon = require('sinon');
 var sinonChai = require('sinon-chai');
@@ -21,11 +21,6 @@ describe('Browser context test', function () {
 	it('should have access to the window', function () {
 		if (!window) {
 			throw new Error('no window object');
-		}
-	});
-	it('should be able to use the module', function () {
-		if (testModule.test !== 'done') {
-			throw new Error('test method not returning correct string');
 		}
 	});
 });

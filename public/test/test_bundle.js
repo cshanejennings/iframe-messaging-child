@@ -6251,99 +6251,7 @@ module.exports = isArray || function (val) {
 }));
 
 },{}],38:[function(require,module,exports){
-/*
-var JSAPI = {};
-var initialized = false;
-var widgetId;
-var api = {};
-var pw; //parent window
-var root;
-
-function onMessage (event) {
-
-    var data = event.data || {};
-    var method = JSAPI[data.method] || {};
-    var args = data.arguments || [];
-
-    if (typeof args !== 'object' || args.hasOwnProperty('length')) {
-        args = [args];
-    }
-    if (method && typeof method === 'function') {
-        data.returnedBy = data.method;
-        delete data[method];
-        try {
-            data.response = method.apply(null, args);
-         } catch (e) {
-             data.response = 'error:' + e;
-         }
-    }
-    if (data.hasOwnProperty('callback')) {
-        console.log('callback found');
-    }
-    data.widgetId = widgetId;
-    pw.postMessage(data, '*');
-}
-
-function post () {
-    var c = [];
-    c = c.splice.call(arguments, 0);
-    pw.postMessage({
-        method: c.shift(),
-        arguments: c,
-        widgetId: widgetId
-    }, '*');
-}
-
-function addCallback (name, method) {
-    JSAPI[name] = method;
-    if (initialized) {
-        post('addMethod', name);
-    }
-}
-
-function call (method) {
-    if (!method) { return; }
-    var params = [];
-    params = params.splice.call(arguments, 0);
-    post(params.shift(), params);
-}
-
-function addInitializeCallback () {
-    //add JSAPI methods to the parent
-    addCallback('initialize', function (iframe) {
-        var method;
-        widgetId = iframe;
-        for (method in JSAPI) {
-            post('addMethod', method);
-        }
-        delete JSAPI.initialize;
-        initialized = true;
-        api.objectID = widgetId;
-    });
-}
-
-api = {
-    addCallback: addCallback,
-    call: call,
-    objectID: widgetId,
-    post: post
-};
-
-module.exports = function (config) {
-    root = config.root;
-    pw = config.parent;
-    widgetId = config.id;
-    addInitializeCallback();
-    root.addEventListener('message', onMessage, false);
-    return api;
-};
-*/
-module.exports = {
-	test: 'done'
-};
-
-},{}],39:[function(require,module,exports){
-var testModule = require('../../src/index');
+//var testModule = require('../../src/index');
 var chai = require('chai');
 //var sinon = require('sinon');
 var sinonChai = require('sinon-chai');
@@ -6368,15 +6276,10 @@ describe('Browser context test', function () {
 			throw new Error('no window object');
 		}
 	});
-	it('should be able to use the module', function () {
-		if (testModule.test !== 'done') {
-			throw new Error('test method not returning correct string');
-		}
-	});
 });
 
-},{"../../src/index":38,"chai":1,"sinon-chai":37}],40:[function(require,module,exports){
-var testModule = require('../../src/index');
+},{"chai":1,"sinon-chai":37}],39:[function(require,module,exports){
+//var child = require('../../src/index');
 var chai = require('chai');
 //var sinon = require('sinon'),
 var sinonChai = require('sinon-chai');
@@ -6400,9 +6303,6 @@ describe('Sample Test', function () {
 			throw new Error('false is true, buckle up...');
 		}
 	});
-	if (testModule.test !== 'done') {
-		throw new Error('test method not returning correct string');
-	}
 });
 
-},{"../../src/index":38,"chai":1,"sinon-chai":37}]},{},[40,39]);
+},{"chai":1,"sinon-chai":37}]},{},[39,38]);
