@@ -60,7 +60,7 @@
     "disallowKeywordsOnNewLine": [ "else" ],
     "requireLineFeedAtFileEnd": true,
     "maximumLineLength": {
-        "value": 120, // 120 for lib, 180 for test?
+        "value": 80, // 120 for lib, 180 for test?
         "tabSize": 2,
         "allowUrlComments": true,
         "allowRegex": true
