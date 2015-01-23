@@ -32,6 +32,7 @@ function onMessage (event) {
 }
 
 function post (method, args) {
+    args = args || [];
     parentWindow.postMessage({
         method: method,
         arguments: args,
@@ -48,16 +49,14 @@ function addCallback (name, method) {
 
 function call (method) {
     if (!method) { return; }
-    var params = [];
-    params = params.splice.call(arguments, 0);
+    var params = [].splice.call(arguments, 0);
     post(params.shift(), params);
 }
 
 function addInitializeCallback () {
     //add JSAPI methods to the parent
-    addCallback('initialize', function (iframe) {
+    addCallback('initialize', function () {
         var method;
-        widgetId = iframe;
         for (method in JSAPI) {
             if (JSAPI.hasOwnProperty(method)) {
                 post('addMethod', method);
@@ -76,6 +75,7 @@ api = {
 
 module.exports = function (config) {
     root = config.root;
+    widgetId = config.id;
     parentWindow = config.parent;
     api.objectID = config.id;
     addInitializeCallback();

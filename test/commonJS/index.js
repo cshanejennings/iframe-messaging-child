@@ -1,6 +1,7 @@
 var externalInterface = require('../../src/index');
 var chai = require('chai');
-//var sinon = require('sinon'),
+var sinon = require('sinon');
+var expect = chai.expect;
 var sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 
@@ -8,22 +9,22 @@ describe('Test Method Availability', function () {
 	var child;
 	var simParentWindow;
 	var stub;
-	var parentPostMessage;
+	var sendParentPostMessage;
 	var simChildWindow = {
-		addEventListener: function (id, func) { parentPostMessage = func; }
+		addEventListener: function (id, func) { sendParentPostMessage = func; }
 	};
 	var widgetId = '000000000';
-	var config = {
-		root: simChildWindow,
-		parent: simParentWindow,
-		id: widgetId
-	};
 
 	beforeEach(function () {
+		stub = sinon.spy();
 		simParentWindow = {
 			'postMessage': stub
 		};
-		child = externalInterface(config);
+		child = externalInterface({
+			root: simChildWindow,
+			parent: simParentWindow,
+			id: widgetId
+		});
 	// runs before each test in this block
 	});
 
@@ -39,7 +40,18 @@ describe('Test Method Availability', function () {
 		}
 	});
 
-	it('should send a message when the call methods is used', function () {
+	it('should send a message when the call method is used', function () {
+		child.call('test');
+		/*jshint -W030 */
+		expect(stub).to.have.been.called;
+	});
 
+	it('message should have the correct content', function () {
+		child.call('test');
+		/*jshint -W030 */
+		var respData = stub.firstCall.args[0];
+		expect(respData.widgetId).to.equal(widgetId);
+		expect(respData.method).to.equal('test');
+		expect(respData.arguments).to.be.empty;
 	});
 });
